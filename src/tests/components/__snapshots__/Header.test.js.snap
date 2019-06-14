@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render header correctly 1`] = `
+<header>
+  <Link
+    to="/dashboard"
+  >
+    <h1>
+      web-annotation-tool
+    </h1>
+  </Link>
+  <button
+    onClick={[Function]}
+  >
+    Logout
+  </button>
+</header>
+`;

@@ -1,0 +1,7 @@
+node_modules/
+logs/
+tmp/
+public/dist/
+*.log
+.env.test
+.env.development
