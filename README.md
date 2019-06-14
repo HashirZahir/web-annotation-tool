@@ -15,7 +15,7 @@ As such, the developer has to send out his images to all his other colleagues wh
 ## Aim
 We aim to develop a web based image annotation tool that allows multiple users to concurrently annotate images to significantly speed up the labelling process, instead of individual users annotating images. This will allow the software developer to focus more on training the ML model instead of worrying about the annotation process and how to combine all the data to feed it into the ML model.
 
-##User Stories
+## User Stories
 1. As a current student trying out object detection deep learning models, I want to be able to make the annotation process of the images as seamless as possible so that I can focus on the math intensive deep learning model understanding.
 1. As a current university student, I would like my friends to help out in the annotation process without requiring them to download offline tools in different platforms (MacOS, Windows, Linux, etc) and instead just go to an interactive web app.
 1. As a student helping out by annotating images, I would like to help annotate as much images as possible as well as to minimize the amount of human errors I have done while labelling so as to 
@@ -31,7 +31,7 @@ We will make an interactive User Interface as well as a multi user system with a
 1. Basic User Interface
 1. Working Annotation Interface
 
-###Features to be completed by mid-July:
+### Features to be completed by mid-July:
 1. Smart Annotation Feature
 1. Useful Keyboard Shortcuts
 1. Achievement System
