@@ -1,5 +1,5 @@
 {
-  "name": "expensify",
+  "name": "web-annotation-tool",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -12,13 +12,13 @@
     "heroku-postbuild": "yarn run build:prod"
   },
   "dependencies": {
-    "axios": "^0.17.1",
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
+    "axios": "^0.17.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

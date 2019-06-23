@@ -29,6 +29,7 @@ export default class BoundingBox extends Component {
   }
 
   render() {
+    //console.log(this.props.box);
     return (
       <div
         className="BoundingBox"

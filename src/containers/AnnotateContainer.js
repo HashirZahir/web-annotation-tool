@@ -18,6 +18,7 @@ export default class AnnotateContainer extends Component {
 
   loadImageURL() {
     // no server specified, use default cat pic
+    
     if (config["server"] === null) {
       this.setState({ imageURL: require("../cat.jpg") });
     } else {
