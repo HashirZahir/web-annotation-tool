@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const DashboardPage = () => (
-  <div>
+  <div className="content-container">
       <div>
         <h3>Successfully logged in from DashboardPage</h3>
       </div>

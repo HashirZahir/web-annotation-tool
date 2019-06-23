@@ -33,7 +33,7 @@ export default class AnnotateContainer extends Component {
         &workerId=${parsed.workerId}
         &assignmentId=${parsed.assignmentId}`
       ).then(res => {
-        // console.log(res);
+        console.log(res.data);
         this.setState({
           imageURL: res.data.imageUrl
         });
@@ -42,7 +42,7 @@ export default class AnnotateContainer extends Component {
         console.log(err);
       });
     }
-
+    console.log(this.state.imageURL);
   }
 
   render() {
