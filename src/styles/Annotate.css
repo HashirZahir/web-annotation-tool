@@ -99,6 +99,18 @@ html, body {
   height: auto;
 }
 
+.vertical-btn-group button {
+  background-color: #000; /* Green background */
+  border: 3px solid red; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 50%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+  margin: 20px;
+}
+
+
 .Instruction {
   background-color: black;
   color: white;

@@ -20,7 +20,8 @@ const mapStateToProps = (state, ownProps) => {
     imageProps: state.turktool.imageProps,
     canUndo: state.turktool.committedBoxes.past.length > 0,
     canRedo: state.turktool.committedBoxes.future.length > 0,
-    taskId: ownProps.taskId
+    taskId: ownProps.taskId,
+    showSidePanel: true
   };
 };
 

@@ -13,16 +13,16 @@ export default class InfoPanel extends Component {
         <table>
           <tbody>
             <tr>
-              <td><KeyboardKey symbol={"Z"} /></td>
-              <td>Undo</td> 
+              <th><KeyboardKey symbol={"Z"} /></th>
+              <th>Undo</th> 
             </tr>
             <tr>
-              <td><KeyboardKey symbol={"X"} /></td>
-              <td>Redo</td> 
+              <th><KeyboardKey symbol={"X"} /></th>
+              <th>Redo</th> 
             </tr>
             <tr>
-              <td><KeyboardKey symbol={"C"} /></td>
-              <td>Toggle cross</td> 
+              <th><KeyboardKey symbol={"C"} /></th>
+              <th>Toggle cross</th> 
             </tr>
           </tbody>
         </table>

@@ -5,6 +5,7 @@ import Crosshair from "../components/Crosshair";
 import InfoPanel from "../components/InfoPanel";
 import { calculateRectPosition, isRectangleTooSmall } from "../utils/drawing";
 import SubmitButtonContainer from "../containers/SubmitButtonContainer";
+import Select from 'react-select';
 
 /**
  * `LabelView` is a container for `LabelImage` and
@@ -23,6 +24,7 @@ class LabelView extends Component {
     this.getCurrentBox = this.getCurrentBox.bind(this);
     this.refreshDrawing = this.refreshDrawing.bind(this);
     this.isCrosshairReady = this.isCrosshairReady.bind(this);
+    this.labelChangeHandler = this.labelChangeHandler.bind(this);
 
     this.state = {
       isDrawing: false,
@@ -33,7 +35,9 @@ class LabelView extends Component {
       currY: null,
       imgLoaded: false,
       imageUrl: null,
-      showCrosshair: true
+      showCrosshair: true,
+      imageLabel: null,
+      isLabelSelection: false
     };
   }
 
@@ -130,10 +134,12 @@ class LabelView extends Component {
       this.props.imageProps,
       this.getCurrentBox()
     );
+
     if (this.state.isDrawing && !isRectangleTooSmall(boxPosition)) {
       // drawing has ended, and coord is not null,
       // so this rectangle can be committed permanently
       this.props.commitDrawingAsBox(this.state.currentBoxId, boxPosition);
+      this.state.isLabelSelection = true;
     }
     this.refreshDrawing();
   }
@@ -156,13 +162,29 @@ class LabelView extends Component {
     return this.state.currX &&
       this.state.currY &&
       this.props.imageProps.height &&
-      this.props.imageProps.width;
+      this.props.imageProps.width &&
+      !this.state.isLabelSelection;
   }
 
+  labelChangeHandler = selectedOption => {
+    this.setState({ 
+      imageLabel: selectedOption,
+      isLabelSelection : false
+    });
+    console.log(`Option selected:`, selectedOption);
+  };
   render() {
     // console.log("re-render LabelView");
     // TODO: get committed rectangles from Redux store
+    // console.log(this.props);
+    // console.log(this.state);
     var boxesToRender = this.props.committedBoxes.slice(0);
+
+    const options = [
+      { value: 'cat', label: 'Cat' },
+      { value: 'dog', label: 'Dog' },
+      { value: 'person', label: 'Person' }
+    ];
 
     if (this.state.startX != null) {
       boxesToRender.push({
@@ -174,6 +196,13 @@ class LabelView extends Component {
       });
     }
 
+    var topPX = 0, leftPX = 0;
+    var box_position = [];
+    if ((this.props.committedBoxes).length > 0){
+      box_position = this.props.committedBoxes[this.props.committedBoxes.length-1].position;
+      topPX = box_position.top + box_position.height;
+      leftPX = box_position.left;
+    }
     return (
       <div
         id="LabelViewContainer"
@@ -196,6 +225,19 @@ class LabelView extends Component {
                 boxes={boxesToRender}
                 isDrawing={this.state.isDrawing}
               />
+            )}
+
+            {this.state.isLabelSelection && (
+
+              <div style={{top: +topPX, left: leftPX, width: '30%', position: 'absolute', zIndex:'1'}}>
+                <Select 
+                  options={options} 
+                  menuIsOpen={true}
+                  autofocus={true}
+                  onChange={this.labelChangeHandler}
+                  disabled={this.state.isLabelSelection}
+                />
+              </div>
             )}
             <ImageContainer imageURL={this.props.imageURL} />
           </div>
