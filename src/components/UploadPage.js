@@ -54,7 +54,7 @@ class UploadPage extends React.Component {
     this.setState(oldState => ({
       filenames: [...oldState.filenames, filename],
       // downloadURLs: [...oldState.downloadURLs, downloadURL],
-      uploadProgress: "Done!",
+      uploadProgress: "100",
       isUploading: false
     }));
   };
@@ -91,6 +91,9 @@ class UploadPage extends React.Component {
             </CustomUploadButton>
 
             <p>Progress: {this.state.uploadProgress}</p>
+
+            <progress value={this.state.uploadProgress} max="100">
+            </progress>
 
             <p>Filenames: {this.state.filenames.join(", ")}</p>
 
