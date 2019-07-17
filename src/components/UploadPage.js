@@ -84,7 +84,7 @@ class UploadPage extends React.Component {
             value={this.state.image_collection_name}
             name="image_collection_name"
             onChange={this.handleChangeCollectionName}
-            placeholder="Collection Name"
+            placeholder="Type a name to get started..."
           />
 
           <Link to="/">

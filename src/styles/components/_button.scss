@@ -17,10 +17,17 @@
 
 .button-large {
   @extend .button;
+  border-radius: 5px;
   box-sizing: border-box;
   margin: 0 auto;
   text-align: center;
   width: 100%;
+}
+
+.button-large__top {
+  @extend .button-large;
+  height: 70px;
+  margin-top: $l-size;
 }
 
 .button--link {
