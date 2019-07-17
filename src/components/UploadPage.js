@@ -1,6 +1,6 @@
 import React from "react";
-import { firebase } from 'firebase/firebase.js'
-import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
+import { firebase } from "../firebase/firebase";
+import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -19,7 +19,6 @@ class UploadPage extends React.Component {
       uid: props.uid,
       image_collection_name: "",
       filenames: [],
-      // downloadURLs: [],
       isUploading: false,
       uploadProgress: 0
     };
@@ -45,27 +44,28 @@ class UploadPage extends React.Component {
   };
 
   handleUploadSuccess = async filename => {
-    // const downloadURL = await firebase
-    //   .storage()
-    //   .ref(`users/${this.state.uid}/images`)
-    //   .child(filename)
-    //   .getDownloadURL();
-
     this.setState(oldState => ({
       filenames: [...oldState.filenames, filename],
-      // downloadURLs: [...oldState.downloadURLs, downloadURL],
-      uploadProgress: "100",
+      uploadProgress: "Done!",
       isUploading: false
     }));
 
-    firebase.firestore().collection("images").add({
-      name: this.state.image_collection_name,
-      owner: this.state.uid
-    });
-    var names_list = firebase.firestore().collection("image_collection_names").doc("names");
+    firebase
+      .firestore()
+      .collection("images")
+      .add({
+        name: this.state.image_collection_name,
+        owner: this.state.uid
+      });
+    var names_list = firebase
+      .firestore()
+      .collection("image_collection_names")
+      .doc("names");
 
     names_list.update({
-      names: firebase.firestore.FieldValue.arrayUnion(this.state.image_collection_name)
+      names: firebase.firestore.FieldValue.arrayUnion(
+        this.state.image_collection_name
+      )
     });
   };
 
@@ -75,54 +75,54 @@ class UploadPage extends React.Component {
 
   render() {
     return (
-      <div className="content-container">
-        <label>Image Collection Name:</label>
-        <input
-          type="text"
-          value={this.state.image_collection_name}
-          name="image_collection_name"
-          onChange={this.handleChangeCollectionName}
-        />
+      <div className="content-container__aligned">
+        <div className="form">
+          <label>Image Collection Name:</label>
+          <input
+            type="text"
+            className="text-input"
+            value={this.state.image_collection_name}
+            name="image_collection_name"
+            onChange={this.handleChangeCollectionName}
+            placeholder="Collection Name"
+          />
+
+          <Link to="/">
+            <button type="button" className="button-back">
+              Back to Dashboard
+            </button>
+          </Link>
+        </div>
+
         {this.state.image_collection_name !== "" && (
           <div name="upload-images">
+            <progress
+              value={this.state.uploadProgress}
+              className="progress-bar"
+              max="100"
+            />
+
             <CustomUploadButton
               accept="image/*"
               name="image-uploader-multiple"
               randomizeFilename={false}
-              storageRef={firebase.storage().ref(`users/${this.state.image_collection_name}/images`)}
+              storageRef={firebase
+                .storage()
+                .ref(`users/${this.state.image_collection_name}/images`)}
               onUploadStart={this.handleUploadStart}
               onUploadError={this.handleUploadError}
               onUploadSuccess={this.handleUploadSuccess}
               onProgress={this.handleProgress}
               multiple
-              className="button"
-              >
-              Add Images
+              className="button-large"
+            >
+              {this.state.uploadProgress === 0
+                ? "Add Images"
+                : this.state.uploadProgress +
+                  (this.state.uploadProgress === "Done!" ? "" : "%")}
             </CustomUploadButton>
-
-            <p>Progress: {this.state.uploadProgress}</p>
-
-            <progress value={this.state.uploadProgress} max="100">
-            </progress>
-
-            <p>Filenames: {this.state.filenames.join(", ")}</p>
-
-            {/* <div>
-              {this.state.downloadURLs.map((downloadURL, i) => {
-                return <img key={i} src={downloadURL} />;
-              })}
-            </div> */}
-
-
           </div>
         )}
-        
-        <br></br><br></br><br></br>
-        <Link to="/">
-          <button type="button" className="button">
-            Back to Dashboard
-          </button>
-        </Link>
       </div>
     );
   }

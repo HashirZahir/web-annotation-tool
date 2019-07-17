@@ -1,0 +1,13 @@
+.label {
+  display: inline-block;
+  height: 50px;
+  font-size: $font-size-large;
+  font-weight: 300;
+  margin-top: $l-size;
+}
+
+.progress-bar {
+  margin: $m-size 0;
+  height: 50px;
+  width: 100%;
+}

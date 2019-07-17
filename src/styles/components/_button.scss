@@ -10,6 +10,19 @@
   text-decoration: none;
 }
 
+.button-back {
+  @extend .button;
+  background-color: $grey;
+}
+
+.button-large {
+  @extend .button;
+  box-sizing: border-box;
+  margin: 0 auto;
+  text-align: center;
+  width: 100%;
+}
+
 .button--link {
   background: none;
 }
