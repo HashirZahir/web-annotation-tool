@@ -9,10 +9,15 @@ export default class AnnotateContainer extends Component {
     super(props);
     this.props = props;
     this.loadImageURL = this.loadImageURL.bind(this);
-    this.state = { imageURL: null };
+    this.state = { 
+      imageURL: null,
+      imgFolderURL : null 
+    };
   }
 
   componentDidMount() {
+    this.state.imgFolderURL = this.props.location.state.imgFolderURL;
+    console.log("parent img folder name: ", this.state.imgFolderURL );
     this.loadImageURL();
   }
 
