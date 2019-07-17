@@ -1,11 +1,11 @@
 import React from "react";
-import firebase from "firebase";
+import { firebase } from 'firebase/firebase.js'
 import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 class UploadPage extends React.Component {
-  // Currently uploads to users/{uid}/images
+  // Currently uploads to users/{image_collection_name}/images
   // TODO:
   // 1. Get list of uploaded images on login and store in state
   // 2. Add the images to state after upload
@@ -57,6 +57,16 @@ class UploadPage extends React.Component {
       uploadProgress: "100",
       isUploading: false
     }));
+
+    firebase.firestore().collection("images").add({
+      name: this.state.image_collection_name,
+      owner: this.state.uid
+    });
+    var names_list = firebase.firestore().collection("image_collection_names").doc("names");
+
+    names_list.update({
+      names: firebase.firestore.FieldValue.arrayUnion(this.state.image_collection_name)
+    });
   };
 
   handleChangeCollectionName = event => {
