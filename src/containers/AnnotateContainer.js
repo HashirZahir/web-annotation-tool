@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import axios from 'axios'
 import AnnotatePage from '../components/AnnotatePage'
 import config from '../config'
 import queryString from 'qs'
+import { firebase } from "../firebase/firebase";
 
 export default class AnnotateContainer extends Component {
   constructor(props) {
@@ -11,7 +11,10 @@ export default class AnnotateContainer extends Component {
     this.loadImageURL = this.loadImageURL.bind(this);
     this.state = { 
       imageURL: null,
-      imgFolderURL : null 
+      imgFolderURL : null,
+      imgRef: firebase
+        .firestore()
+        .collection("images")
     };
   }
 
@@ -22,32 +25,30 @@ export default class AnnotateContainer extends Component {
   }
 
   loadImageURL() {
-    // no server specified, use default cat pic
-    
-    if (config["server"] === null) {
-      this.setState({ imageURL: require("../cat.jpg") });
-    } else {
-      // server is specified, get the imageURL from the API endpoint
-      const taskId = this.props.match.params.taskId;
-      console.log(taskId);
-      const parsed = queryString.parse(this.props.location.search);
-      
-      axios.get(
-        `${config["server"][process.env.NODE_ENV]}/boxes/${taskId}
-        ?hitId=${parsed.hitId}
-        &workerId=${parsed.workerId}
-        &assignmentId=${parsed.assignmentId}`
-      ).then(res => {
-        console.log(res.data);
-        this.setState({
-          imageURL: res.data.imageUrl
-        });
+    var imgRef = this.state.imgRef;
+    imgRef
+      .where("name", "==", this.state.imgFolderURL)
+      .where("is_labelled", "==", false)
+      .where("is_being_labelled", "==", false)
+      .limit(1)
+      .get()
+      .then(doc => {
+        doc = doc.docs[0];
+        var imageURL = null;
+        console.log(doc);
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          imageURL = doc.data().filename;
+        } 
+        else {
+          console.log("No data in database or all images have been annotated");
+        }
+
+        this.setState({ imageURL });
       })
-      .catch(err => {
-        console.log(err);
+      .catch(function(error) {
+        console.log("Error getting document:", error);
       });
-    }
-    console.log(this.state.imageURL);
   }
 
   render() {

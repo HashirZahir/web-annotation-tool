@@ -17,7 +17,6 @@ export default class DashboardPage extends Component {
 
   componentDidMount() {
     var docRef = this.state.docRef;
-    // var image_collection_names = [];
     docRef
       .get()
       .then(doc => {

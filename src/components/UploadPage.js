@@ -54,8 +54,11 @@ class UploadPage extends React.Component {
       .firestore()
       .collection("images")
       .add({
-        name: this.state.image_collection_name,
-        owner: this.state.uid
+        image_collection_name: this.state.image_collection_name,
+        filename: filename,
+        owner: this.state.uid,
+        is_labelled: false,
+        is_being_labelled: false
       });
     var names_list = firebase
       .firestore()
