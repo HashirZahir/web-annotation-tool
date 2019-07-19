@@ -12,7 +12,7 @@ export default class AnnotateContainer extends Component {
     this.state = { 
       imageURL: null,
       imgFolderURL : null,
-      imgRef: firebase
+      dbRef: firebase
         .firestore()
         .collection("images")
     };
@@ -25,30 +25,50 @@ export default class AnnotateContainer extends Component {
   }
 
   loadImageURL() {
-    var imgRef = this.state.imgRef;
-    imgRef
-      .where("name", "==", this.state.imgFolderURL)
+    var dbRef = this.state.dbRef;
+    dbRef
+      .where("image_collection_name", "==", this.state.imgFolderURL)
       .where("is_labelled", "==", false)
       .where("is_being_labelled", "==", false)
       .limit(1)
       .get()
+
       .then(doc => {
         doc = doc.docs[0];
-        var imageURL = null;
+        
         console.log(doc);
         if (doc.exists) {
           console.log("Document data:", doc.data());
-          imageURL = doc.data().filename;
+          
+          const filename = doc.data().filename;
+          this.getFirebaseImageURL(filename);
         } 
         else {
           console.log("No data in database or all images have been annotated");
         }
 
-        this.setState({ imageURL });
       })
       .catch(function(error) {
         console.log("Error getting document:", error);
       });
+  }
+
+  getFirebaseImageURL(filename) {
+    const imgRef=firebase
+                .storage()
+                .ref(`users/${this.state.imgFolderURL}/images/${filename}`);
+    console.log("image url: ", `users/${this.state.imgFolderURL}/images/${filename}`);
+
+    imgRef.getDownloadURL().then(imageURL => {
+      if (imageURL) {
+        console.log("imageURL: ", imageURL);
+      }
+      else {
+        imageURL = null;
+      }
+
+      this.setState({ imageURL });
+    })
   }
 
   render() {
