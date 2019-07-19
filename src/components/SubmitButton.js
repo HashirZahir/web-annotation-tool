@@ -7,42 +7,22 @@ export default class SubmitButton extends Component {
     super(props);
     this.props = props;
     this.submitTask = this.submitTask.bind(this);
-    this.getNormalizedBoxes = this.getNormalizedBoxes.bind(this);
-    this.normalizePosition = this.normalizePosition.bind(this);
-
+    this.getBoxes = this.getBoxes.bind(this);
     this.state = {
       uid: (firebase.auth().currentUser !== null ? firebase.auth().currentUser.uid : null)
     };
   }
 
   /*
-   * Return an Array of normalized box positions. (no id)
+   * Return an Array of bounding box positions. (no id)
    */
-  getNormalizedBoxes() {
-    const normalizedBoxes = [];
+  getBoxes() {
+    const boxes = [];
     for (var key in this.props.boundingBoxes) {
       const box = this.props.boundingBoxes[key].position;
-      const normalizedBox = this.normalizePosition(box);
-      normalizedBoxes.push(normalizedBox);
+      boxes.push(box);
     }
-    return normalizedBoxes;
-  }
-
-  normalizePosition(position) {
-    const { top, left, width, height } = position;
-    // console.log(top, left, width, height);
-    const normalizedPosition = {
-      top: top / this.props.imageHeight,
-      left: left / this.props.imageWidth,
-      width: width / this.props.imageWidth,
-      height: height / this.props.imageHeight
-    };
-    // round to 2 decimal places
-    for (var key in normalizedPosition) {
-      normalizedPosition[key] = normalizedPosition[key].toFixed(2);
-    }
-    // console.log(normalizedPosition);
-    return normalizedPosition;
+    return boxes;
   }
 
   submitTask() {
@@ -56,8 +36,8 @@ export default class SubmitButton extends Component {
         image_collection_name: this.props.image_collection_name,
         filename: this.props.filename,
         owner: this.state.uid,
-        image_label: this.props.image_label,
-        image_bbox: this.getNormalizedBoxes()
+        image_label: this.props.image_label.value,
+        image_bbox: this.getBoxes()
       });
 
     console.log("Annotation created in db successfully.");
@@ -115,7 +95,7 @@ export default class SubmitButton extends Component {
             name="boundingBoxes"
             type="submit"
             id="submitButton"
-            value={JSON.stringify(this.getNormalizedBoxes())}
+            value={JSON.stringify(this.getBoxes())}
             onClick={() => { this.submitTask() }}
             ref={value => {
               this.value = value;
