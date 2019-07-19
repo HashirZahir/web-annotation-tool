@@ -36,7 +36,7 @@ class LabelView extends Component {
       imgLoaded: false,
       imageUrl: null,
       showCrosshair: true,
-      imageLabel: null,
+      image_label: null,
       isLabelSelection: false
     };
   }
@@ -168,7 +168,7 @@ class LabelView extends Component {
 
   labelChangeHandler = selectedOption => {
     this.setState({ 
-      imageLabel: selectedOption,
+      image_label: selectedOption,
       isLabelSelection : false
     });
     console.log(`Option selected:`, selectedOption);
@@ -244,7 +244,11 @@ class LabelView extends Component {
           {this.props.showSidePanel &&
             <div id="SidePanel">
               <InfoPanel />
-              <SubmitButtonContainer />
+              <SubmitButtonContainer 
+                filename={this.props.filename}
+                image_collection_name={this.props.image_collection_name}
+                image_label={this.state.image_label}
+              />
             </div>
           }
           <div style={{clear: "both"}} />

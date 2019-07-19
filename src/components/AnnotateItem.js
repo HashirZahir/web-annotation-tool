@@ -6,7 +6,7 @@ const AnnotateItem = ({ id }) => (
     <Link className="list-item" to={{
       pathname: `/annotate/${id}`,
       state: {
-        imgFolderURL: id
+        image_collection_name: id
       }
     }}>
       <div>

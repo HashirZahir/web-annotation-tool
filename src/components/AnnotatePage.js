@@ -16,6 +16,8 @@ class AnnotatePage extends Component {
         <LabelViewContainer
           imageURL={this.props.imageURL}
           showSidePanel={this.props.showSidePanel}
+          filename={this.props.filename}
+          image_collection_name={this.props.image_collection_name}
         />
       </div>
     );

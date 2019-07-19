@@ -5,6 +5,9 @@ import { withRouter } from "react-router-dom";
 const mapStateToProps = (state, ownProps) => {
   const committedBoxes = state.turktool.committedBoxes.present;
   return {
+    image_collection_name: ownProps.image_collection_name,
+    filename: ownProps.filename,
+    image_label: ownProps.image_label,
     hasDrawnBox: Object.keys(committedBoxes).length > 0,
     boundingBoxes: committedBoxes,
     imageHeight: state.turktool.imageProps.height,

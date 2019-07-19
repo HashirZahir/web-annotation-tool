@@ -17,6 +17,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     committedBoxes: committedBoxesArray,
     imageURL: ownProps.imageURL,
+    image_collection_name: ownProps.image_collection_name,
+    filename: ownProps.filename,
     imageProps: state.turktool.imageProps,
     canUndo: state.turktool.committedBoxes.past.length > 0,
     canRedo: state.turktool.committedBoxes.future.length > 0,

@@ -1,26 +1,18 @@
 import React, { Component } from "react";
 import axios from "axios";
-var env = process.env.NODE_ENV;
-var config = require("../config.json");
-const queryString = require("query-string");
-var qs = require("qs");
+import { firebase } from "../firebase/firebase";
 
 export default class SubmitButton extends Component {
   constructor(props) {
     super(props);
     this.props = props;
     this.submitTask = this.submitTask.bind(this);
-    this.getSubmissionUrl = this.getSubmissionUrl.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.getNormalizedBoxes = this.getNormalizedBoxes.bind(this);
     this.normalizePosition = this.normalizePosition.bind(this);
-    this.parsed = queryString.parse(this.props.location.search);
-  }
 
-  hasAcceptedTask() {
-    if (this.parsed.assignmentId === undefined)
-      return false;
-    return this.parsed.assignmentId !== "ASSIGNMENT_ID_NOT_AVAILABLE";
+    this.state = {
+      uid: (firebase.auth().currentUser !== null ? firebase.auth().currentUser.uid : null)
+    };
   }
 
   /*
@@ -53,38 +45,78 @@ export default class SubmitButton extends Component {
     return normalizedPosition;
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    const input = document.getElementById('submitButton');
-    input.setAttribute('value', JSON.stringify(this.getNormalizedBoxes()));
-    console.log(input);
-    const form = document.getElementById('submitForm');
-    HTMLFormElement.prototype.submit.call(form);
-    
-  }
+  submitTask() {
 
-  submitTask(e) {
-    // e.preventDefault();
-    console.log("POSTing data");
-    axios
-      .post(`${this.getSubmissionUrl()}`, {})
-      .then(function(response) {
-        console.log(response);
+    var db = firebase.firestore();
+
+    // add annotation to database
+    db
+      .collection("annotations")
+      .add({
+        image_collection_name: this.props.image_collection_name,
+        filename: this.props.filename,
+        owner: this.state.uid,
+        image_label: this.props.image_label,
+        image_bbox: this.getNormalizedBoxes()
+      });
+
+    console.log("Annotation created in db successfully.");
+
+
+    // update image as labelled in database
+    db
+      .collection("images")
+      .where("image_collection_name", "==", this.props.image_collection_name)
+      .where("filename", "==", this.props.filename)
+      .limit(1)
+      .get()
+
+      .then(doc => { 
+        console.log(doc);
+        const image = (doc.docs.length > 0 ? doc.docs[0] : null); 
+
+        if (doc.docs.length > 0 && image.exists) {
+          db.collection("images").doc(image.id)
+            .update({
+              is_being_labelled: false,
+              is_labelled: true
+            });
+
+          console.log("Image label status changed successfully");
+        } 
+        else {
+          console.log("image not found");
+        }
+
       })
       .catch(function(error) {
-        console.log(error);
+        console.log("Error getting document:", error);
       });
+
+    location.reload(true);
   }
 
+
+
   createInputElement() {
-    if (this.hasAcceptedTask()) {
-      if (this.props.hasDrawnBox)
+      var error_msg_text;
+
+      if (!this.props.hasDrawnBox) {
+        error_msg_text = "Draw a box first!";
+      }
+      else if (!this.props.image_label) {
+        error_msg_text = "Select Label for Bounding Box";
+      }
+
+
+      if (this.props.hasDrawnBox && this.props.image_label)
         return (
           <button
             name="boundingBoxes"
             type="submit"
             id="submitButton"
             value={JSON.stringify(this.getNormalizedBoxes())}
+            onClick={() => { this.submitTask() }}
             ref={value => {
               this.value = value;
             }}
@@ -97,24 +129,8 @@ export default class SubmitButton extends Component {
             type="submit"
             id="submitButton"
             disabled
-          >Draw a box first!</button>
-        );
-    } else {
-      return (
-        <button
-          name="boundingBoxes"
-          type="submit"
-          id="submitButton"
-          disabled
-        >Cannot Submit! Accept HIT.</button>
-      );
-    }
-  }
-
-  getSubmissionUrl() {
-    const url = config["submit"][env] + "/?assignmentId=" + this.parsed.assignmentId;
-    console.log(url);
-    return url;
+          >{error_msg_text}</button>
+        ); 
   }
 
   render() {
@@ -122,14 +138,7 @@ export default class SubmitButton extends Component {
 
     return (
       <div id="Submit">
-        <form
-          id="submitForm"
-          type="submit"
-          method="POST"
-          action={this.getSubmissionUrl()}
-        >
-          {inputElement}
-        </form>
+        {inputElement}
       </div>
     );
   }
