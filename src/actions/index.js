@@ -18,13 +18,14 @@ export const deleteBox = (id) => {
  * @param {int} id 
  * @param {Object} position 
  */
-export const updateBox = (id, position) => {
+export const updateBox = (id, label) => {
   return {
     type: "UPDATE_BOX",
     id: id,
-    position
+    label
   }
 }
+
 
 export const setImageProps = (height, width, offsetX, offsetY) => {
   return {

@@ -13,7 +13,8 @@ const boxes = (state = {}, action) => {
         ...state,
         [newId]: {
           id: newId,
-          position: action.position
+          position: action.position,
+          label: null
         }
       }
     
@@ -31,11 +32,12 @@ const boxes = (state = {}, action) => {
     case "UPDATE_BOX":
       let updateId = action.id;
       return Object.keys(state).reduce((result, key) => {
-        if (key === updateId) {
+        if (key == updateId) {
+          console.log("updating box label..", action);
           let box = state[key];
           result[key] = {
             ...box,
-            position: action.position
+            label: action.label
           }
         } else {
           result[key] = state[key];

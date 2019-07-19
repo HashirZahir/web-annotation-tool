@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { ActionCreators as UndoActionCreators } from "redux-undo";
 import LabelView from "../components/LabelView";
-import { addBox } from "../actions";
+import { addBox, updateBox } from "../actions";
 
 // convert JSON key-value pairs of boxes to Array
 const preprocess = boxes => {
@@ -31,6 +31,9 @@ const mapDispatchToProps = dispatch => {
   return {
     commitDrawingAsBox: (id, position) => {
       dispatch(addBox(id, position));
+    },
+    updateBoxLabel: (id, label) => {
+      dispatch(updateBox(id, label));
     },
     onUndo: () => dispatch(UndoActionCreators.undo()),
     onRedo: () => dispatch(UndoActionCreators.redo())

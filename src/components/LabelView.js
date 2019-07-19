@@ -29,6 +29,7 @@ class LabelView extends Component {
     this.state = {
       isDrawing: false,
       currentBoxId: 0,
+      boxPosition: null,
       startX: null,
       startY: null,
       currX: null,
@@ -36,7 +37,6 @@ class LabelView extends Component {
       imgLoaded: false,
       imageUrl: null,
       showCrosshair: true,
-      image_label: null,
       isLabelSelection: false
     };
   }
@@ -130,15 +130,15 @@ class LabelView extends Component {
   mouseUpHandler(event) {
     // console.log(this.props.imageProps);
     // console.log("up");
-    const boxPosition = calculateRectPosition(
+    this.state.boxPosition = calculateRectPosition(
       this.props.imageProps,
       this.getCurrentBox()
     );
 
-    if (this.state.isDrawing && !isRectangleTooSmall(boxPosition)) {
+    if (this.state.isDrawing && !isRectangleTooSmall(this.state.boxPosition)) {
       // drawing has ended, and coord is not null,
       // so this rectangle can be committed permanently
-      this.props.commitDrawingAsBox(this.state.currentBoxId, boxPosition);
+      this.props.commitDrawingAsBox(this.state.currentBoxId, this.state.boxPosition);
       this.state.isLabelSelection = true;
     }
     this.refreshDrawing();
@@ -168,10 +168,10 @@ class LabelView extends Component {
 
   labelChangeHandler = selectedOption => {
     this.setState({ 
-      image_label: selectedOption,
       isLabelSelection : false
     });
     console.log(`Option selected:`, selectedOption);
+    this.props.updateBoxLabel(this.state.currentBoxId-1, selectedOption);
   };
   render() {
     // console.log("re-render LabelView");
@@ -192,8 +192,9 @@ class LabelView extends Component {
         position: calculateRectPosition(
           this.props.imageProps,
           this.getCurrentBox()
-        )
+        ),
       });
+
     }
 
     var topPX = 0, leftPX = 0;
@@ -247,7 +248,6 @@ class LabelView extends Component {
               <SubmitButtonContainer 
                 filename={this.props.filename}
                 image_collection_name={this.props.image_collection_name}
-                image_label={this.state.image_label}
               />
             </div>
           }

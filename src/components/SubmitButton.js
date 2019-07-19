@@ -19,9 +19,10 @@ export default class SubmitButton extends Component {
   getBoxes() {
     const boxes = [];
     for (var key in this.props.boundingBoxes) {
-      const box = this.props.boundingBoxes[key].position;
+      const box = this.props.boundingBoxes[key];
       boxes.push(box);
     }
+    console.log("bboxes: ", boxes);
     return boxes;
   }
 
@@ -36,7 +37,6 @@ export default class SubmitButton extends Component {
         image_collection_name: this.props.image_collection_name,
         filename: this.props.filename,
         owner: this.state.uid,
-        image_label: this.props.image_label.value,
         image_bbox: this.getBoxes()
       });
 
@@ -80,16 +80,19 @@ export default class SubmitButton extends Component {
 
   createInputElement() {
       var error_msg_text;
+      // var latest_idx = Object.keys(this.props.boundingBoxes).length-1;
+      // TODO: ensure all bboxes have labels before pressing submit
+      var latest_bbox = this.props.boundingBoxes[0];
 
       if (!this.props.hasDrawnBox) {
         error_msg_text = "Draw a box first!";
       }
-      else if (!this.props.image_label) {
+      else if (latest_bbox.label == null) {
         error_msg_text = "Select Label for Bounding Box";
       }
 
 
-      if (this.props.hasDrawnBox && this.props.image_label)
+      if (this.props.hasDrawnBox && latest_bbox.label != null)
         return (
           <button
             name="boundingBoxes"
