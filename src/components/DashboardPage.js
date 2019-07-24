@@ -11,7 +11,8 @@ export default class DashboardPage extends Component {
       docRef: firebase
         .firestore()
         .collection("image_collection_names")
-        .doc("names")
+        .doc("names"),
+      dbRef: firebase.firestore().collection("images")
     };
   }
 
@@ -30,28 +31,37 @@ export default class DashboardPage extends Component {
         }
 
         this.setState({ image_items });
+        console.log("image items: ", this.state.image_items);
       })
       .catch(function(error) {
         console.log("Error getting document:", error);
       });
+  }
 
-    console.log("image items: ", this.state.image_items);
+  startDelete(item) {
+    var names_list = firebase
+      .firestore()
+      .collection("image_collection_names")
+      .doc("names");
+
+    names_list.update({
+      names: firebase.firestore.FieldValue.arrayRemove(item)
+    });
+
+    const newArray = this.state.image_items;
+    newArray.names = newArray.names.filter(i => i !== item);
+
+    this.setState({
+      image_items: newArray
+    });
+
+    // TODO: update images property
+    // Actually delete images in storage
   }
 
   render() {
-    // let image_items = this.state.image_items ? <h1>No Data</h1> : ;
-
     return (
       <div className="content-container">
-        {/* <div>
-          <pre>{JSON.stringify(this.state.image_items)}</pre>
-        </div> */}
-        {/* <Link to="/annotate">
-          <button type="button" className="button">
-            Annotate
-          </button>
-        </Link> */}
-        
         <Link to="/upload">
           <button type="button" className="button-large__top">
             Upload Images
@@ -63,13 +73,27 @@ export default class DashboardPage extends Component {
         </div>
 
         <div className="list-body">
-          {this.state.image_items === null || this.state.image_items.length === 0 ? (
+          {this.state.image_items === null ? (
+            <div className="list-item list-item--message">
+              <span>Loading...</span>
+            </div>
+          ) : this.state.image_items.names.length === 0 ? (
             <div className="list-item list-item--message">
               <span>Nothing to annotate, upload some images first!</span>
             </div>
           ) : (
             this.state.image_items.names.map(item => {
-              return <AnnotateItem key={item} id={item}/>;
+              return (
+                <div key={item}>
+                  <AnnotateItem key={item} id={item} />
+                  <button
+                    className="button"
+                    onClick={this.startDelete.bind(this, item)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              );
             })
           )}
         </div>
