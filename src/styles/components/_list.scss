@@ -12,21 +12,50 @@
   margin-bottom: $l-size 0;
 }
 
+.list-footer {
+  border: 1px solid darken($off-white, 7%);
+  border-top: none;
+  padding: 0 $s-size $m-size $s-size;
+}
+
+.list-button {
+  background-color: $blue;
+  border: none;
+  color: white;
+  display: inline-block;
+  font-size: $font-size-large;
+  font-weight: 300;
+  line-height: 1;
+  padding: $s-size;
+  margin-right: $s-size;
+  text-decoration: none;
+}
+
+.list-button-danger {
+  @extend .list-button;
+  background-color: #cc0000;
+}
+
 .list-item {
   align-items: center;
   border: 1px solid darken($off-white, 7%);
   border-top: none;
+  border-bottom: none;
   color: $dark-grey;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: $m-size;
   text-decoration: none;
+}
+
+.list-animation {
   transition: background 0.3s ease;
   &:hover {
     background: $off-white;
   }
 }
+
 .list-item__title {
   margin: 0;
   word-break: break-all;

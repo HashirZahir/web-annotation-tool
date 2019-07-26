@@ -101,20 +101,22 @@ export default class DashboardPage extends Component {
           ) : (
             this.state.image_items.names.map(item => {
               return (
-                <div key={item}>
+                <div key={item} className="list-animation">
                   <AnnotateItem key={item} id={item} />
-                  <button
-                    className="button"
-                    onClick={this.startDelete.bind(this, item)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="button"
-                    onClick={this.startDownload.bind(this, item)}
-                  >
-                    Download as XML
-                  </button>
+                  <div className="list-footer">
+                    <button
+                      className="list-button"
+                      onClick={this.startDownload.bind(this, item)}
+                    >
+                      Download as XML
+                    </button>
+                    <button
+                      className="list-button-danger"
+                      onClick={this.startDelete.bind(this, item)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               );
             })
