@@ -183,7 +183,8 @@ class LabelView extends Component {
     const options = [
       { value: 'cat', label: 'Cat' },
       { value: 'dog', label: 'Dog' },
-      { value: 'person', label: 'Person' }
+      { value: 'person', label: 'Person' },
+      { value: 'test', label: 'Test'}
     ];
 
     if (this.state.startX != null) {

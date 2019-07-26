@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { firebase } from "../firebase/firebase";
 import AnnotateItem from "./AnnotateItem";
+import { saveAs } from "file-saver";
 
 export default class DashboardPage extends Component {
   constructor(props) {
@@ -59,6 +60,22 @@ export default class DashboardPage extends Component {
     // Actually delete images in storage
   }
 
+  startDownload(item) {
+    let annotationRef = firebase
+      .firestore()
+      .collection("annotations")
+      .where("image_collection_name", "==", item)
+      .get()
+      .then(snapshot =>
+        snapshot.forEach(blob => {
+          const download = new Blob([JSON.stringify(blob.data(), null, 1)], {
+            type: "text/plain;charset=utf-8"
+          });
+          saveAs(download, `${item}.xml`);
+        })
+      );
+  }
+
   render() {
     return (
       <div className="content-container">
@@ -91,6 +108,12 @@ export default class DashboardPage extends Component {
                     onClick={this.startDelete.bind(this, item)}
                   >
                     Delete
+                  </button>
+                  <button
+                    className="button"
+                    onClick={this.startDownload.bind(this, item)}
+                  >
+                    Download as XML
                   </button>
                 </div>
               );
