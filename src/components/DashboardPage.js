@@ -108,7 +108,7 @@ export default class DashboardPage extends Component {
                       className="list-button"
                       onClick={this.startDownload.bind(this, item)}
                     >
-                      Download as XML
+                      Download Annotations
                     </button>
                     <button
                       className="list-button-danger"

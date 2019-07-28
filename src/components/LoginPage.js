@@ -5,8 +5,8 @@ import { startLogin } from "../actions/auth";
 export const LoginPage = ({ startLogin }) => (
   <div className="box-layout">
     <div className="box-layout__box">
-      <h1 className="box-layout__title">web-annotation-tool</h1>
-      <p>An web-based image annotation tool that allows multiple users to concurrently annotate images.</p>
+      <h1 className="box-layout__title">annotate.me</h1>
+      <p>The best web interface for universal object detection labelling.</p>
       <button className="button" onClick={startLogin}>
         Login with Google
       </button>

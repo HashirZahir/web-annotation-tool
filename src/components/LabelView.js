@@ -5,7 +5,7 @@ import Crosshair from "../components/Crosshair";
 import InfoPanel from "../components/InfoPanel";
 import { calculateRectPosition, isRectangleTooSmall } from "../utils/drawing";
 import SubmitButtonContainer from "../containers/SubmitButtonContainer";
-import Select from 'react-select';
+import Select from "react-select";
 
 /**
  * `LabelView` is a container for `LabelImage` and
@@ -71,7 +71,7 @@ class LabelView extends Component {
         this.setState(prevState => {
           return {
             showCrosshair: !prevState.showCrosshair
-          }
+          };
         });
         break;
       case 90:
@@ -138,7 +138,10 @@ class LabelView extends Component {
     if (this.state.isDrawing && !isRectangleTooSmall(this.state.boxPosition)) {
       // drawing has ended, and coord is not null,
       // so this rectangle can be committed permanently
-      this.props.commitDrawingAsBox(this.state.currentBoxId, this.state.boxPosition);
+      this.props.commitDrawingAsBox(
+        this.state.currentBoxId,
+        this.state.boxPosition
+      );
       this.state.isLabelSelection = true;
     }
     this.refreshDrawing();
@@ -159,19 +162,21 @@ class LabelView extends Component {
   }
 
   isCrosshairReady() {
-    return this.state.currX &&
+    return (
+      this.state.currX &&
       this.state.currY &&
       this.props.imageProps.height &&
       this.props.imageProps.width &&
-      !this.state.isLabelSelection;
+      !this.state.isLabelSelection
+    );
   }
 
   labelChangeHandler = selectedOption => {
-    this.setState({ 
-      isLabelSelection : false
+    this.setState({
+      isLabelSelection: false
     });
     console.log(`Option selected:`, selectedOption);
-    this.props.updateBoxLabel(this.state.currentBoxId-1, selectedOption);
+    this.props.updateBoxLabel(this.state.currentBoxId - 1, selectedOption);
   };
   render() {
     // console.log("re-render LabelView");
@@ -181,10 +186,9 @@ class LabelView extends Component {
     var boxesToRender = this.props.committedBoxes.slice(0);
 
     const options = [
-      { value: 'cat', label: 'Cat' },
-      { value: 'dog', label: 'Dog' },
-      { value: 'person', label: 'Person' },
-      { value: 'test', label: 'Test'}
+      { value: "cat", label: "Cat" },
+      { value: "dog", label: "Dog" },
+      { value: "person", label: "Person" }
     ];
 
     if (this.state.startX != null) {
@@ -193,15 +197,17 @@ class LabelView extends Component {
         position: calculateRectPosition(
           this.props.imageProps,
           this.getCurrentBox()
-        ),
+        )
       });
-
     }
 
-    var topPX = 0, leftPX = 0;
+    var topPX = 0,
+      leftPX = 0;
     var box_position = [];
-    if ((this.props.committedBoxes).length > 0){
-      box_position = this.props.committedBoxes[this.props.committedBoxes.length-1].position;
+    if (this.props.committedBoxes.length > 0) {
+      box_position = this.props.committedBoxes[
+        this.props.committedBoxes.length - 1
+      ].position;
       topPX = box_position.top + box_position.height;
       leftPX = box_position.left;
     }
@@ -214,13 +220,13 @@ class LabelView extends Component {
       >
         <div id="Middle">
           <div id="LabelView">
-            {this.state.showCrosshair && this.isCrosshairReady() &&
+            {this.state.showCrosshair && this.isCrosshairReady() && (
               <Crosshair
                 x={this.state.currX}
                 y={this.state.currY}
                 imageProps={this.props.imageProps}
               />
-            }
+            )}
             {boxesToRender.length > 0 && (
               <BoundingBoxes
                 className="BoundingBoxes unselectable"
@@ -230,10 +236,17 @@ class LabelView extends Component {
             )}
 
             {this.state.isLabelSelection && (
-
-              <div style={{top: +topPX, left: leftPX, width: '30%', position: 'absolute', zIndex:'1'}}>
-                <Select 
-                  options={options} 
+              <div
+                style={{
+                  top: +topPX,
+                  left: leftPX,
+                  width: "30%",
+                  position: "absolute",
+                  zIndex: "1"
+                }}
+              >
+                <Select
+                  options={options}
                   menuIsOpen={true}
                   autofocus={true}
                   onChange={this.labelChangeHandler}
@@ -243,16 +256,16 @@ class LabelView extends Component {
             )}
             <ImageContainer imageURL={this.props.imageURL} />
           </div>
-          {this.props.showSidePanel &&
+          {this.props.showSidePanel && (
             <div id="SidePanel">
               <InfoPanel />
-              <SubmitButtonContainer 
+              <SubmitButtonContainer
                 filename={this.props.filename}
                 image_collection_name={this.props.image_collection_name}
               />
             </div>
-          }
-          <div style={{clear: "both"}} />
+          )}
+          <div style={{ clear: "both" }} />
         </div>
       </div>
     );
