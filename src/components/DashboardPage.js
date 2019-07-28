@@ -91,11 +91,11 @@ export default class DashboardPage extends Component {
 
         <div className="list-body">
           {this.state.image_items === null ? (
-            <div className="list-item list-item--message">
+            <div className="list-item list-item__message">
               <span>Loading...</span>
             </div>
           ) : this.state.image_items.names.length === 0 ? (
-            <div className="list-item list-item--message">
+            <div className="list-item list-item__message">
               <span>Nothing to annotate, upload some images first!</span>
             </div>
           ) : (

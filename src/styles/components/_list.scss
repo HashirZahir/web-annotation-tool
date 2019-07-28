@@ -60,3 +60,11 @@
   margin: 0;
   word-break: break-all;
 }
+
+.list-item__message {
+  border: 1px solid darken($off-white, 7%);
+  border-top: none;
+  margin: 0;
+  word-break: break-all;
+}
+

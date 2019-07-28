@@ -3,6 +3,7 @@ import AnnotatePage from "../components/AnnotatePage";
 import config from "../config";
 import queryString from "qs";
 import { firebase } from "../firebase/firebase";
+import { Link } from "react-router-dom";
 
 export default class AnnotateContainer extends Component {
   constructor(props) {
@@ -10,6 +11,7 @@ export default class AnnotateContainer extends Component {
     this.props = props;
     this.loadImageURL = this.loadImageURL.bind(this);
     this.state = {
+      allAnnotated: false,
       imageURL: null,
       image_collection_name: null,
       filename: null,
@@ -25,7 +27,7 @@ export default class AnnotateContainer extends Component {
 
   loadImageURL() {
     var dbRef = this.state.dbRef;
-  
+
     dbRef
       .where("image_collection_name", "==", this.state.image_collection_name)
       .where("is_labelled", "==", false)
@@ -44,6 +46,7 @@ export default class AnnotateContainer extends Component {
           this.getFirebaseImageURL(filename);
           dbRef.doc(image.id).update({ is_being_labelled: true });
         } else {
+          this.setState({ allAnnotated: true });
           console.log("No data in database or all images have been annotated");
         }
 
@@ -76,7 +79,16 @@ export default class AnnotateContainer extends Component {
 
   render() {
     console.log(this.state.imageURL);
-    return (
+    return this.state.allAnnotated ? (
+      <div className="content-container">
+        <h2>No data in database or all images have been annotated!</h2>
+        <Link to="/">
+          <button type="button" className="button-back">
+            Back to Dashboard
+          </button>
+        </Link>
+      </div>
+    ) : (
       <AnnotatePage
         imageURL={this.state.imageURL}
         filename={this.state.filename}
