@@ -3,7 +3,7 @@
 
 ## Installation
 1. Install dependencies with ```yarn install```
-1. Place ```.env.development``` and ```.env.test``` files in directory
+1. Place ```.env.development``` and ```.env.test``` files in directory (please contact the team for these files, as they contain information the team prefers to remain private (e.g. Database API keys)
 1. Run a local copy with ```yarn run dev-server```
 1. Run tests with ```yarn test --watchAll```
 
@@ -24,7 +24,7 @@ We aim to develop a web based image annotation tool that allows multiple users t
 ## Scope of Project
 A cross-platform website will be developed to allow for a seamless annotation process so as not to hinder the machine learning development process.
 
-We will make an interactive User Interface as well as a multi user system with achievements system to motivate the users who help to annotate as it can be quite a tiresome job. 
+We will make an interactive user interface with a multi-user annotation feature as well as intuitive keyboard shortcuts to streamline the annotation process as it can be quite a tiresome job.  
 
 ### Features to be completed by mid-June:
 1. Login and user creation
@@ -32,9 +32,9 @@ We will make an interactive User Interface as well as a multi user system with a
 1. Working Annotation Interface
 
 ### Features to be completed by mid-July:
-1. Smart Annotation Feature
 1. Useful Keyboard Shortcuts
-1. Achievement System
+1. Multi-User Annotation feature
+1. Downloading Annotations as a file
 
 ## How are we different from similar platforms?
 Currently, there exists similar web annotation tools, however, they are all very expensive and hence not accessible to the common user. Moreover, the free tools only allow for offline single user annotation and some web annotation tools exist but written in very old languages (PHP) with very un-intuitive interfaces and limited functionality.
@@ -44,7 +44,8 @@ We aim to improve upon these tools by making a modern and intuitive web app with
 ## Program Flow
 A web-based application will prompt users to create an account before using the application. There, the user would be able to choose what kind of datasets he wants to annotate. Users can upload their own image dataset for everyone else to annotate or they can help others annotate.
 
-If the dataset has a public visibility filter, then anyone can help to annotate the images. After all the images have been annotated, the developer can create his ML model. A rating system will also be in place to display the quality of annotation of each user. If the dataset has a non-public visibility filter, it can either be open to specific users via private invites or to users with a minimum rating to prevent low quality work. 
-While the user annotates, he can utilize custom shortcuts as well as suggested bounding boxes from smart ML models that learn as you annotate the images.
+Users can upload their own image dataset for everyone else to annotate or they can help others annotate using the multi-user annotation feature.
+
+While the user annotates, he can utilize custom shortcuts for features such as undo and redo, as well as toggling the custom crosshair in case it is too intrusive for the user during annotation.
 
 The ML developer who uploads the dataset will be able to download the annotations in a format that is supported by well known machine learning frameworks (eg: Tensorflow) and immediately train on the dataset.
