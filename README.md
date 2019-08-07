@@ -1,4 +1,4 @@
-# web-annotation-tool
+# annotate.me
 **Proposed Level of Achievement: Gemini**
 
 ## Installation
@@ -14,6 +14,9 @@ As such, the developer has to send out his images to all his other colleagues wh
 
 ## Aim
 We aim to develop a web based image annotation tool that allows multiple users to concurrently annotate images to significantly speed up the labelling process, instead of individual users annotating images. This will allow the software developer to focus more on training the ML model instead of worrying about the annotation process and how to combine all the data to feed it into the ML model.
+
+## Technologies Used
+React, Redux and Firebase were used as the main technology stack for the project.
 
 ## User Stories
 1. As a current student trying out object detection deep learning models, I want to be able to make the annotation process of the images as seamless as possible so that I can focus on the math intensive deep learning model understanding.
@@ -49,3 +52,9 @@ Users can upload their own image dataset for everyone else to annotate or they c
 While the user annotates, he can utilize custom shortcuts for features such as undo and redo, as well as toggling the custom crosshair in case it is too intrusive for the user during annotation.
 
 The ML developer who uploads the dataset will be able to download the annotations in a format that is supported by well known machine learning frameworks (eg: Tensorflow) and immediately train on the dataset.
+
+## Future Work
+A smart annotation feature would be a great addition to this application. After annotation of a few images, the underlying machine learning model would have been trained and should be able to suggest future annotations for the user, further speeding up the annotation process. Of course, users would be able to override the suggested annotations and replace it with their own annotations should they see fit.
+
+Furthermore, a rating system can be implemented, where users rate the quality of the annotations on a scale of 1 to 5 (where 5 is the highest quality). This would help users see the quality of annotations quickly at a glance.
+
