@@ -58,3 +58,12 @@ A smart annotation feature would be a great addition to this application. After 
 
 Furthermore, a rating system can be implemented, where users rate the quality of the annotations on a scale of 1 to 5 (where 5 is the highest quality). This would help users see the quality of annotations quickly at a glance.
 
+## App Screenshots
+### Dashboard Page
+![Dashboard Page](https://puu.sh/E2fBt.PNG)
+
+### Upload Page
+![Upload Page](https://puu.sh/E2fBs.png)
+
+### Annotate Page
+![Upload Page](https://puu.sh/E2fBy.PNG)
